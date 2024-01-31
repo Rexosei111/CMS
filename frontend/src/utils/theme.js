@@ -1,7 +1,9 @@
 import { Roboto } from "next/font/google";
+import { Poppins } from "next/font/google";
 import { createTheme } from "@mui/material/styles";
+import { colors } from "@mui/material";
 
-export const roboto = Roboto({
+export const roboto = Poppins({
   weight: ["300", "400", "500", "700"],
   subsets: ["latin"],
   display: "swap",
@@ -12,18 +14,18 @@ export const roboto = Roboto({
 const theme = createTheme({
   palette: {
     mode: "light",
-    // secondary: {
-    //   main: "#1C38D2",
-    //   light: "#495FDB",
-    //   dark: "#132793",
-    //   contrastText: "#FFFFFF",
-    // },
-    // primary: {
-    //   main: "#86005e",
-    //   light: "#A7516F",
-    //   dark: "#6e024e",
-    //   contrastText: "#FFFFFF",
-    // },
+    secondary: {
+      main: "rgb(0, 105, 128)",
+      light: "rgb(51, 140, 166)",
+      dark: "rgb(0, 84, 102)",
+      // contrastText: "#FFFFFF",
+    },
+    primary: {
+      main: "rgb(0, 128, 105)",
+      light: "rgb(51, 179, 147)",
+      dark: "rgb(0, 102, 84)",
+      // contrastText: "#FFFFFF",
+    },
 
     // success: {
     //   main: "#66bb6a",
@@ -33,10 +35,11 @@ const theme = createTheme({
     //   default: "#1c1f20",
     //   paper: "#181a1b",
     // },
-    // text: {
-    //   primary: "#dedede",
-    //   secondary: "#979797",
-    // },
+    text: {
+      primary: "#3c3c3c",
+      secondary: "rgb(0, 128, 105)",
+      light: "#818181",
+    },
   },
   components: {
     MuiButtonBase: {
@@ -44,6 +47,7 @@ const theme = createTheme({
         root: ({ theme }) => {
           theme.unstable_sx({
             textTransform: "capitalize",
+            height: 50,
           });
         },
       },
@@ -51,7 +55,7 @@ const theme = createTheme({
   },
   typography: {
     fontFamily:
-      "Apple-System,Arial,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,STXihei,sans-serif",
+      "Apple-System, Arial, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, STXihei, sans-serif",
   },
 });
 

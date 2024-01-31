@@ -25,7 +25,6 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { usePathname, useRouter } from "next/navigation";
 import axios, { isAxiosError } from "axios";
 import Link from "next/link";
-import { APIClient } from "@/utils/axios";
 import { TextInputField } from "@/app/components/inputs";
 import {
   ContactSupport,
@@ -40,6 +39,7 @@ import useToken from "@/app/hooks/token";
 import { getUserTypeBasePath } from "@/utils/pageNavigator";
 import { TimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
+import { APIClient } from "@/app/config/axios";
 
 const loginSchema = yup
   .object({

@@ -17,6 +17,17 @@ export default function Page() {
         width={{ xs: "100%", md: "50%" }}
         order={{ xs: 2, md: 1 }}
       >
+        {/* <Typography
+          variant="h3"
+          fontSize={25}
+          textTransform={"uppercase"}
+          fontWeight={700}
+          position={"absolute"}
+          top={40}
+
+        >
+          client management system
+        </Typography> */}
         <Box>
           <Typography variant="h4" gutterBottom>
             Welcome back!
@@ -56,7 +67,7 @@ export default function Page() {
             width: "100%",
           }}
         >
-          <Box width={"100%"}>
+          <Box width={"100%"} sx={{ color: "white" }}>
             <Typography
               variant="h5"
               align="center"

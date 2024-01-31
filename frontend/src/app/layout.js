@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import ThemeRegistry from "@/utils/themeRegistry";
 import Providers from "./providers";
+import { TopBar } from "./components/topBar";
 
 export const metadata = {
   title: "Client management system",
@@ -14,7 +15,10 @@ export default function RootLayout({ children }) {
       <body>
         <AppRouterCacheProvider>
           <ThemeRegistry options={{ key: "mui-theme" }}>
-            <Providers>{children}</Providers>
+            <Providers>
+              {/* <TopBar /> */}
+              {children}
+            </Providers>
           </ThemeRegistry>
         </AppRouterCacheProvider>
       </body>

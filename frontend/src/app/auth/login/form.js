@@ -1,14 +1,6 @@
 "use client";
-import {
-  Chip,
-  IconButton,
-  Paper,
-  Stack,
-  TextField,
-  Tooltip,
-  Typography,
-} from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
+import { IconButton, Paper, Stack, Tooltip } from "@mui/material";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -18,19 +10,15 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import LoadingButton from "@mui/lab/LoadingButton";
 import LoginIcon from "@mui/icons-material/Login";
 import { usePathname, useRouter } from "next/navigation";
-import axios, { isAxiosError } from "axios";
-// import useToken from "@/hooks/token";
 import Link from "next/link";
-import { APIClient } from "@/utils/axios";
 import {
   TextInputField,
   BootstrapInput,
   StyledInputBase,
 } from "@/app/components/inputs";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { SnackbarContext } from "@/app/providers/snackbarProvider";
-import useToken from "@/app/hooks/token";
 import { getUserTypeBasePath } from "@/utils/pageNavigator";
+import { useAuth } from "@/app/hooks/auth";
 
 const loginSchema = yup
   .object({
@@ -49,62 +37,24 @@ export default function LoginForm({ auth_endpoint = "/auth/login" }) {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [passwordInputType, setPasswordInputType] = useState("password");
-
+  const { login } = useAuth();
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
     setPasswordInputType(showPassword === false ? "text" : "password");
   };
   const router = useRouter();
   const pathname = usePathname();
-  const [token, setToken] = useToken(process.env.NEXT_PUBLIC_TOKEN_NAME, null);
-  useEffect(() => {
-    if (pathname !== null) {
-      window.localStorage.removeItem(process.env.NEXT_PUBLIC_TOKEN_NAME);
-    }
-  }, [pathname]);
-  const getUserInfo = async (access_token) => {
-    try {
-      const { data } = await APIClient.get("/users/me", {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-        },
-      });
-      return data;
-    } catch (error) {
-      if (isAxiosError(error)) {
-        setSnackSeverity("error");
-        handleSnackbarOpen("Unable to retrieve user data");
-      }
-    }
-  };
-  const { handleOpen: handleSnackbarOpen, setSnackSeverity } =
-    useContext(SnackbarContext);
 
   const navigateToPage = (userInfo) => {
     const path = getUserTypeBasePath(userInfo);
     router.push(path);
   };
 
-  const onSubmit = async (form_data) => {
-    const formData = new URLSearchParams();
-    formData.append("username", form_data.email);
-    formData.append("password", form_data.password);
-    try {
-      const { data } = await APIClient.post(auth_endpoint, formData, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      });
-      setToken(data);
-      const userInfo = await getUserInfo(data?.access_token);
-      setToken((prevState) => ({ ...prevState, ...userInfo }));
-      navigateToPage(userInfo);
-    } catch (error) {
-      if (isAxiosError(error)) {
-        setSnackSeverity("error");
-        handleSnackbarOpen("Unable to login! Check your credentials!");
-      }
-    }
+  const onSubmit = async (data) => {
+    // const result = await login(data.email, data.password);
+    // if (result !== null) {
+    router.push(router.query?.callbackUrl ? router.query.callbackUrl : "/f");
+    // }
   };
   return (
     <Paper
@@ -177,7 +127,7 @@ export default function LoginForm({ auth_endpoint = "/auth/login" }) {
           <LoadingButton
             variant="contained"
             color="primary"
-            disabled={!isValid}
+            // disabled={!isValid}
             disableElevation
             loading={isSubmitting}
             type="submit"

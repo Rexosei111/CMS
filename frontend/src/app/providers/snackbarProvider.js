@@ -9,24 +9,26 @@ export default function SnackBarProvider({ children }) {
   const [snackMessage, setSnackMessage] = React.useState("");
   const [snackSeverity, setSnackSeverity] = React.useState("success");
 
-  const handleOpen = (message) => {
+  const showSnackbar = (message, severity) => {
     setSnackMessage(message);
+    setSnackSeverity(severity);
     setSnackOpen(true);
   };
 
-  const handleClose = (event, reason) => {
+  const hideSnackbar = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-
+    setSnackMessage("");
+    setSnackSeverity("");
     setSnackOpen(false);
   };
   return (
     <SnackbarContext.Provider
       value={{
         snackOpen,
-        handleOpen,
-        handleClose,
+        showSnackbar,
+        hideSnackbar,
         setSnackMessage,
         setSnackSeverity,
       }}
@@ -35,11 +37,11 @@ export default function SnackBarProvider({ children }) {
       <Snackbar
         open={snackOpen}
         autoHideDuration={6000}
-        onClose={handleClose}
+        onClose={hideSnackbar}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
         <Alert
-          onClose={handleClose}
+          onClose={hideSnackbar}
           variant="filled"
           severity={snackSeverity}
           sx={{ width: "100%" }}
